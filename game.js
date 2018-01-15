@@ -39,6 +39,55 @@ this.userGuess = function () {
 
 // play again function
 
+this.newGame = function () {
+	inquirer
+	.prompt([
+		{type:"confirm",
+		name:"choice",
+		message:"Would you like to play again?"
+	}
+	])
+	.then(function(val) {
+		if. (val.choice) {
+			self.play();
+		}
+		else {
+			self.quit ();
+		}
+	})
+};
 
 
+this.askForLetter = function () {
+	return inquirer
+	.prompt ([
+	{
+		type:"input",
+		name:"choice",
+		message:"Guess a letter",
+		validate: function (val) {
+			return /[a-z1-9]/g1.test(val);
+		}
+	}
+	])
+	.then (function(val){
+		var didGuessCorrectly = self.currentWord.guessLetter(val.choice);
+		if (didGuessCorrectly){
+			console.log(chalk.green("correct"));
+		}
+
+		else {
+			self.guessesLeft -1;
+			console.log(chalk.red ("incorrect"));
+			console.log(self.guessesLeft + "guesses remaining");
+		}
+	});
+};
+
+this.quit = function () {
+	console.log ("peace out");
+	process.exit(0);
+};
 }
+
+module.exports = game;
